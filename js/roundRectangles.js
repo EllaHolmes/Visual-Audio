@@ -3,7 +3,8 @@
  */
 var mouse = [480, 250],
     count = 0,
-    numberOfRect = 32;
+    numberOfRect = 16
+    totalSize= 15;
 
 var svg = d3.select("body").append("svg")
     .attr("width", 960)
@@ -22,11 +23,13 @@ g.append("rect")
     .attr("width", 25)
     .attr("height", 25)
     .attr("border", 1)
-    .attr("transform", function (d, i) { return "scale(" + (1 - d / 25) * 20 + ")";})
+    .attr("transform", function (d, i) {
+        return "scale(" + (1 - d / 15) * totalSize + ")";
+    })
     .style("fill", "magenta")
     .style("stroke", "blue");
 
-function setup(){
+function setup() {
     audioFile.loop();
     analyzer = new p5.FFT(0.7, numberOfRect);
     analyzer.setInput(audioFile);
@@ -40,32 +43,21 @@ svg.on("mousemove", function () {
     mouse = d3.mouse(this);
 });
 
-// d3.timer(function () {
-//     count++;
-//     g.attr("transform", function (d, i) {
-//         d.center[0] += (mouse[0] - d.center[0]) / (i + 5);
-//         d.center[1] += (mouse[1] - d.center[1]) / (i + 5);
-//         d.angle += Math.sin((count + i) / 10) * 7;
-//         return "translate(" + d.center + ")rotate(" + d.angle + ")";
-//     });
-// });
-
-function draw(){
+function draw() {
     count++;
     var spectrum = analyzer.analyze();
-    var average = Math.round(spectrum[spectrum.length/2] * 100.0 / 300) / 100;
-    console.log(spectrum[10]);
     g.attr("transform", function (d, i) {
 
+        var newSize  = spectrum[i] / 250;
         d.center[0] += (mouse[0] - d.center[0]) / (i + 5);
         d.center[1] += (mouse[1] - d.center[1]) / (i + 5);
         d.angle += Math.sin((count + i) / 10) * 7;
-        return "scale(" + average + ")translate(" + d.center + ")rotate(" + d.angle + ")";
+        return "translate(" + d.center + ")scale(" + newSize + ")rotate(" + d.angle + ")";
     });
 
 }
 
-svg.on("click", function(){
+svg.on("click", function () {
     console.log("mouse click");
     g.style("fill", "yellow");
 });
