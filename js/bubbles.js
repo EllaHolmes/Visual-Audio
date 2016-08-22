@@ -18,7 +18,7 @@ function draw() {
 
     for( var i = 0; i < numberOfBubbles; i++){
         bubbles[i].float();
-        bubbles[i].roate();
+        bubbles[i].rotate();
         bubbles[i].display();
     }
 }
@@ -34,7 +34,7 @@ function Bubble() {
         this.y += random(1);
     }
 
-    this.roate = function(){
+    this.rotate = function(){
         rotateZ(frameCount * 0.01);
         rotateX(frameCount * 0.01);
         rotateY(frameCount * 0.01);
