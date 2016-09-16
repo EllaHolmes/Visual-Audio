@@ -12,7 +12,6 @@ const AUDIO_SOURCES = [
 
 var audioFile, analyser;
 
-
 //Randomly chooses a song, and loads the audio
 function preload() {
     var audioSrc = AUDIO_SOURCES[Math.floor(Math.random() * AUDIO_SOURCES.length)];

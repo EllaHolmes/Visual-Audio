@@ -1,48 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style type="text/css">
-        /*Sets the background to black*/
-        html, body {
-            background: #000;
-        }
-
-        canvas {
-            display: block;
-            margin: 120px auto 0;
-        }
-
-        #p5_loading {
-            color: #fff;
-            font-family: monospace;
-            left: calc(50% - 50px);
-            top: 50%;
-            width: 100px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
 
-    <!--<script src="lib/d3.js"></script>-->
-    <!--<script src="lib/d3.min.js"></script>-->
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="lib/p5.js"></script>
-    <script src="lib/p5.sound.js"></script>
-    <script src="js/setup.js"></script>
 
-    <script>
-        function loadVisualizerScript(visualizer) {
-            var s = document.createElement('script');
-            s.src = "js/" + visualizer + ".js";
-            s.type = "text/javascript";
-            s.async = false;
-            document.querySelector('body').appendChild(s);
-        }
-        if (window.location.hash) {
-            loadVisualizerScript(window.location.hash.slice(1));
-        }
-    </script>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#waveform"         onclick="changePage()"    >Wave Form</a>
+    <a href="#waveformMatrix"   onclick="changePage()"    >Wave Form Matrix</a>
+    <a href="#spectrum"         onclick="changePage()"    >Spectrum</a>
+    <a href="#roundRectangles"  onclick="changePage()"    >Round Rectangles</a>
+    <a href="#bubbles"          onclick="changePage()"    >Bubbles</a>
+</div>
+
+<span style="font-size:30px;cursor:pointer;color:white;" onclick="openNav()">&#9776; Menu</span>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="lib/p5.js"></script>
+<script src="lib/p5.sound.js"></script>
+<script src="js/setup.js"></script>
+
+<script>
+    function loadVisualizerScript(visualizer) {
+        var s = document.createElement('script');
+        s.src = "js/" + visualizer + ".js";
+        s.type = "text/javascript";
+        s.async = false;
+        document.querySelector('body').appendChild(s);
+    }
+
+    if (window.location.hash) {
+        loadVisualizerScript(window.location.hash.slice(1));
+    }
+
+    function changePage() {
+        location.reload();
+    }
+
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
 
 </body>
 </html>

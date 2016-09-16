@@ -3,47 +3,89 @@
  */
 
 var bubbles = [],
-    numberOfBubbles = 15;
+    numberOfBubbles = 1;
+const WIDTH = 800;
+const HEIGHT = 400;
+
+const MIN_WIDTH = - (WIDTH / 2);
+const MAX_WIDTH = WIDTH / 2;
+const MIN_HEIGHT = - (HEIGHT / 2);
+const MAX_HEIGHT = HEIGHT / 2;
+
 
 function setup() {
-    createCanvas(507, 338, WEBGL);
+    createCanvas(WIDTH, HEIGHT, WEBGL);
     audioFile.loop();
     for (var i = 0; i < numberOfBubbles; i++) {
-        bubbles.push(new Bubble());
+        var bubble = new Bubble();
+        bubbles.push(bubble);
     }
+}
+
+function drawXYZ() {
+    line(0,0,10);    
 }
 
 function draw() {
     background(250);
 
-    for( var i = 0; i < numberOfBubbles; i++){
-        bubbles[i].float();
-        bubbles[i].rotate();
+    drawXYZ();
+
+    for (var i = 0; i < numberOfBubbles; i++) {
+        // bubbles[i].float();
+        // bubbles[i].collide();
+        // bubbles[i].rotate();
         bubbles[i].display();
     }
 }
 
 function Bubble() {
-    this.x = random(10);
-    this.y = random(10);
+    // this.x = random(MIN_WIDTH, MAX_WIDTH);
+    // this.y = random(MIN_HEIGHT, MAX_HEIGHT);
+    this.x = MIN_WIDTH;
+    this.y = MIN_HEIGHT;
     this.diameter = random(120);
+    this.speedX = random(-2, 2);
+    this.speedY = random(-2, 2);
+    this.randomMax = random(10);
+    this.randomMin = random(-10);
 
-
-    this.float = function(){
-        this.x += random(1);
-        this.y += random(1);
+    this.float = function () {
+        this.x += this.speedX * random(this.randomMin,this.randomMax);
+        this.y += this.speedY * random(this.randomMin,this.randomMax);
     }
 
-    this.rotate = function(){
+    this.collide = function () {
+        if (this.x < MIN_WIDTH) {
+            this.x = MAX_WIDTH;
+            this.direction = -this.direction;
+        }
+        else if (this.y < MIN_HEIGHT) {
+            this.y = MIN_HEIGHT;
+            this.direction = -this.direction;
+        }
+        else if (this.x > MAX_WIDTH) {
+            this.x = MAX_WIDTH;
+            this.direction = -this.direction;
+        }
+        else if (this.y > MAX_HEIGHT) {
+            this.y = MAX_HEIGHT;
+            this.direction = -this.direction;
+        }
+    }
+
+    this.rotate = function () {
         rotateZ(frameCount * 0.01);
         rotateX(frameCount * 0.01);
         rotateY(frameCount * 0.01);
     }
 
-    this.display = function(){
+    this.display = function () {
         normalMaterial();
         translate(this.x, this.y);
         sphere(this.diameter);
     }
+
+    return this;
 
 }
